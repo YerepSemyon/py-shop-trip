@@ -3,8 +3,8 @@ from typing import Any
 
 
 class Shop:
-    def __init__(self, shop_name: str, location: list, products: dict) -> None:
-        self.shop_name = shop_name
+    def __init__(self, name: str, location: list, products: dict) -> None:
+        self.name = name
         self.location = location
         self.products = products
 
@@ -25,5 +25,5 @@ class Shop:
                 product_cost = self.products[product] * quantity
                 print(f"{quantity} {product}s for"
                       f"{(self.format_price(product_cost))} dollars")
-        print(f"Total cost is {total_cost} dollars")
-        print("See you again!\n")
+        print(f"Total cost is {total_cost} dollars\n"
+              "See you again!\n")

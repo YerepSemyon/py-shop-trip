@@ -11,13 +11,13 @@ class Customer:
             location: list,
             money: int,
             product_cart: dict,
-            car: Car
+            car: dict
     ) -> None:
         self.name = name
         self.location = location
         self.money = money
         self.product_cart = product_cart
-        self.car = car
+        self.car = Car(**car)
 
     def calculate_cost_of_product_cart(self, shop: Shop) -> int | float:
         total_cost = 0
@@ -47,8 +47,8 @@ class Customer:
         if total_cost <= self.money:
             self.money -= total_cost
             shop.print_receipt(self)
-            print(f"{self.name} rides home")
-            print(f"{self.name} now has {self.money} dollars\n")
+            print(f"{self.name} rides home\n"
+                  f"{self.name} now has {self.money} dollars\n")
         else:
             print(f"{self.name} doesn't have enough money "
                   f"to make a purchase in any shop\n")

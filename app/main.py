@@ -1,7 +1,6 @@
 import json
 import os
 
-from app.car import Car
 from app.shop import Shop
 from app.customer import Customer
 
@@ -17,26 +16,9 @@ def shop_trip() -> None:
     customers_data = config["customers"]
     shops_data = config["shops"]
 
-    customers = []
-    for customer_data in customers_data:
-        car = Car(customer_data["car"]["fuel_consumption"])
-        customer = Customer(
-            customer_data["name"],
-            customer_data["location"],
-            customer_data["money"],
-            customer_data["product_cart"],
-            car
-        )
-        customers.append(customer)
+    customers = [Customer(**customer_data) for customer_data in customers_data]
 
-    shops = []
-    for shop_data in shops_data:
-        shop = Shop(
-            shop_data["name"],
-            shop_data["location"],
-            shop_data["products"]
-        )
-        shops.append(shop)
+    shops = [Shop(**shop_data) for shop_data in shops_data]
 
     for customer in customers:
         print(f"{customer.name} has {customer.money} dollars")
@@ -46,13 +28,13 @@ def shop_trip() -> None:
             cost = customer.calculate_total_trip_cost(shop, fuel_price)
             trip_costs.append((cost, shop))
             print(f"{customer.name}'s trip to the "
-                  f"{shop.shop_name} costs {cost}")
+                  f"{shop.name} costs {cost}")
 
         cheapest_trip = min(trip_costs)
         cheapest_cost, cheapest_shop = cheapest_trip
 
         if cheapest_cost <= customer.money:
-            print(f"{customer.name} rides to {cheapest_shop.shop_name}")
+            print(f"{customer.name} rides to {cheapest_shop.name}")
             customer.make_trip(cheapest_shop, fuel_price)
         else:
             print(f"{customer.name} doesn't have enough "
